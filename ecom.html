@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sample E-Commerce Website</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+    }
+
+    header {
+        background: #222;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 22px;
+    }
+
+    nav {
+        background: #333;
+        padding: 10px;
+        text-align: center;
+    }
+
+    nav a {
+        color: white;
+        margin: 0 15px;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .container {
+        width: 90%;
+        margin: auto;
+        padding-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .product {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .product img {
+        width: 100%;
+        height: 180px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .btn {
+        background: #ff6600;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    #popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #popupBox {
+        background: white;
+        width: 400px;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    #closePopup {
+        background: red;
+        padding: 8px 12px;
+        color: white;
+        border: none;
+        margin-top: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    🛒 Sample E-Commerce Store
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="cart.html">Cart</a>
+</nav>
+
+<div class="container">
+    <div class="product" onclick="showProduct('DSLR Camera', 'dslr.png', 'High quality DSLR camera', 499)">
+        <img src="dslr.png">
+        <h3>DSLR Camera</h3>
+        <p>₹ 499</p>
+    </div>
+
+    <div class="product" onclick="showProduct('Running Shoes', 'shoe.png', 'Comfortable running shoes', 79)">
+        <img src="shoe.png">
+        <h3>Running Shoes</h3>
+        <p>₹ 79</p>
+    </div>
+
+    <div class="product" onclick="showProduct('Wrist Watch', 'watch.png', 'Premium wrist watch', 199)">
+        <img src="watch.png">
+        <h3>Wrist Watch</h3>
+        <p>₹ 199</p>
+    </div>
+
+    <div class="product" onclick="showProduct('Headphones', 'headphone.png', 'High bass wireless headphones', 129)">
+        <img src="headphone.png">
+        <h3>Wireless Headphones</h3>
+        <p>₹ 129</p>
+    </div>
+</div>
+
+<!-- PRODUCT POPUP -->
+<div id="popup">
+    <div id="popupBox">
+        <h2 id="popupTitle"></h2>
+        <img id="popupImg" style="width:100%;height:200px;object-fit:contain;background:#fff;">
+        <p id="popupDesc"></p>
+        <h3 id="popupPrice"></h3>
+
+        <button class="btn" onclick="addToCart()">Add to Cart</button><br>
+        <button id="closePopup" onclick="closePopup()">Close</button>
+    </div>
+</div>
+
+<script>
+let selectedProduct = {};
+
+/* SHOW PRODUCT POPUP */
+function showProduct(name, img, desc, price) {
+    selectedProduct = {name, img, desc, price};
+
+    document.getElementById("popupTitle").innerText = name;
+    document.getElementById("popupImg").src = img;  /* LOCAL IMAGE */
+    document.getElementById("popupDesc").innerText = desc;
+    document.getElementById("popupPrice").innerText = "₹ " + price;
+
+    document.getElementById("popup").style.display = "flex";
+}
+
+/* CLOSE POPUP */
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+/* ADD TO CART (localStorage) */
+function addToCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push(selectedProduct);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(selectedProduct.name + " added to cart!");
+}
+</script>
+
+</body>
+</html>
